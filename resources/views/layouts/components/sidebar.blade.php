@@ -22,7 +22,7 @@ $links = [
                 "section_href" => route('akun.add')
             ]
         ]
-    ]
+    ],
 ];
 $navigation_links = json_decode(json_encode($links));
 @endphp
