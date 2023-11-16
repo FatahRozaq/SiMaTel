@@ -23,6 +23,23 @@ $links = [
             ]
         ]
     ],
+    [
+        "text" => "Kelola Fasilitas Hotel",
+        "icon" => "fas fa-users",
+        "is_multi" => true,
+        "href" => [
+            [
+                "section_text" => "Data Fasiltas",
+                "section_icon" => "far fa-circle",
+                "section_href" => route('fasilitas.index')
+            ],
+            [
+                "section_text" => "Tambah Fasilitas",
+                "section_icon" => "far fa-circle",
+                "section_href" => route('fasilitas.add')
+            ]
+        ]
+    ],
 ];
 $navigation_links = json_decode(json_encode($links));
 @endphp

@@ -1,9 +1,11 @@
 <?php
 
-use App\Http\Controllers\AkunController;
+use App\Models\FasilitasHotel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AkunController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\FasilitasHotelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +40,17 @@ Route::group(['prefix' => 'dashboard/admin'], function () {
             Route::post('showdata', 'dataTable')->name('dataTable');
             Route::match(['get','post'],'tambah', 'tambahAkun')->name('add');
             Route::match(['get','post'],'{id}/ubah', 'ubahAkun')->name('edit');
+            Route::delete('{id}/hapus', 'hapusAkun')->name('delete');
+        });
+
+    Route::controller(FasilitasHotelController::class)
+        ->prefix('fasilitas')
+        ->as('fasilitas.')
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('showdata', 'dataTable')->name('dataTable');
+            Route::match(['get','post'],'tambah', 'tambahFasilitas')->name('add');
+            Route::match(['get','post'],'{idFasilitas}/ubah', 'ubahFasilitas')->name('edit');
             Route::delete('{id}/hapus', 'hapusAkun')->name('delete');
         });
 });
