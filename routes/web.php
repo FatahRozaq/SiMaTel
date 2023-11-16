@@ -4,6 +4,7 @@ use App\Http\Controllers\AkunController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PelangganController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,5 +40,17 @@ Route::group(['prefix' => 'dashboard/admin'], function () {
             Route::match(['get','post'],'tambah', 'tambahAkun')->name('add');
             Route::match(['get','post'],'{id}/ubah', 'ubahAkun')->name('edit');
             Route::delete('{id}/hapus', 'hapusAkun')->name('delete');
-        });
+    });
+        
+    Route::controller(PelangganController::class)
+    ->prefix('pelanggan')
+    ->as('pelanggan.')
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('showdata', 'dataTable')->name('dataTable');
+        Route::match(['get','post'], 'tambah', 'tambahPelanggan')->name('add');
+        Route::match(['get','post'], '{idPelanggan}/ubah', 'ubahPelanggan')->name('edit');
+        Route::delete('{idPelanggan}/hapus', 'hapusPelanggan')->name('delete');
+    });
+
 });

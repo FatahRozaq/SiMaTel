@@ -12,7 +12,11 @@
         "laravel/framework": "^9.2",
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",
-        "laravel/ui": "^3.4"
+        "laravel/ui": "^3.4",
+        "nette/schema": "^1.2",
+        "nette/utils": "^3.2",
+        "phpspec/prophecy": "^1.15",
+        "league/config": "^1.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

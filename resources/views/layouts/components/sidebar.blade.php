@@ -23,6 +23,23 @@ $links = [
             ]
         ]
     ],
+    [
+        "text" => "Kelola Pelanggan",
+        "icon" => "fas fa-user",
+        "is_multi" => true,
+        "href" => [
+            [
+                "section_text" => "Data Pelanggan",
+                "section_icon" => "far fa-circle",
+                "section_href" => route('pelanggan.index')
+            ],
+            [
+                "section_text" => "Tambah Pelanggan",
+                "section_icon" => "far fa-circle",
+                "section_href" => route('pelanggan.add')
+            ]
+        ]
+    ]
 ];
 $navigation_links = json_decode(json_encode($links));
 @endphp
