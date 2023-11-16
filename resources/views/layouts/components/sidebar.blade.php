@@ -39,7 +39,8 @@ $links = [
                 "section_href" => route('pelanggan.add')
             ]
         ]
-    ]
+    ],
+    [
         "text" => "Kelola Fasilitas Hotel",
         "icon" => "fas fa-users",
         "is_multi" => true,
