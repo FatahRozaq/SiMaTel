@@ -9,5 +9,13 @@ class FasilitasHotel extends Model
 {
     use HasFactory;
 
+    protected $table = 'FasilitasHotel';
     protected $primaryKey = 'idFasilitas';
+
+    protected $fillable = [
+        'namaFasilitas',
+        'status',
+        'jumlahTamu',
+        'deskripsi',
+    ];
 }
