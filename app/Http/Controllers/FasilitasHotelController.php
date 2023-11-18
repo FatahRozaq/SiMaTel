@@ -8,11 +8,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Yajra\DataTables\Facades\DataTables;
 
 class FasilitasHotelController extends Controller
 {
     public function index()
     {
+        if (request()->ajax()) {
+            $fasilitasHotel = FasilitasHotel::query();
+            return DataTables::of($fasilitasHotel)
+                ->make();
+        }
         return view('page.admin.fasilitasHotel.index');
     }
 

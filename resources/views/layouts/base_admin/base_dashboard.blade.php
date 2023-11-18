@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="{{ asset('vendor/adminlte3/plugins/fontawesome-free/css/all.min.css') }}">
         <!-- Theme style -->
         <link rel="stylesheet" href="{{ asset('vendor/adminlte3/css/adminlte.min.css') }}">
+        
         @yield('script_head')
     </head>
     <body class="hold-transition sidebar-mini">

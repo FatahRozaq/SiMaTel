@@ -42,7 +42,7 @@ $links = [
     ],
     [
         "text" => "Kelola Fasilitas Hotel",
-        "icon" => "fas fa-users",
+        "icon" => "fa fa-hotel",
         "is_multi" => true,
         "href" => [
             [
