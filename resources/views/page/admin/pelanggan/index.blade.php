@@ -1,174 +1,146 @@
-@extends('layouts.base_admin.base_dashboard')@section('judul', 'List Pelanggan')
+@extends('layouts.base_admin.base_dashboard')
+
+@section('judul', 'List Pelanggan Hotel')
+
 @section('script_head')
-<link
-    rel="stylesheet"
-    type="text/css"
-    href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- Fonts -->
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <!-- Styles -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 @endsection
 
 @section('content')
-<section class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>Data Pelanggan</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item">
-                        <a href="{{ route('home') }}">Beranda</a>
-                    </li>
-                    <li class="breadcrumb-item active">Pelanggan</li>
-                </ol>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Main content -->
-<section class="content">
-
-    <!-- Default box -->
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title"></h3>
-            <div class="card-tools">
-                <button
-                    type="button"
-                    class="btn btn-tool"
-                    data-card-widget="collapse"
-                    title="Collapse">
-                    <i class="fas fa-minus"></i>
-                </button>
-                <button
-                    type="button"
-                    class="btn btn-tool"
-                    data-card-widget="remove"
-                    title="Remove">
-                    <i class="fas fa-times"></i>
-                </button>
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Data Pelanggan Hotel</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('home') }}">Beranda</a>
+                        </li>
+                        <li class="breadcrumb-item active">Pelanggan Hotel</li>
+                    </ol>
+                </div>
             </div>
         </div>
-        <div class="card-body p-0" style="margin: 20px">
-            <table
-                id="previewPelanggan"
-                class="table table-striped table-bordered display"
-                style="width:100%">
-                <thead>
-                    <tr>
-                        <th>Nama</th>
-                        <th>Alamat</th>
-                        <th>No Telepon</th>
-                        <th>Email</th>
-                        <th>Nomor Identifikasi</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-        <!-- /.card-body -->
-    </div>
-    <!-- /.card -->
+    </section>
 
-</section>
-@endsection @section('script_footer')
-<script
-    type="text/javascript"
-    src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-<script
-    type="text/javascript"
-    src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
-<script>
-    $(document).ready(function () {
-                $('#previewPelanggan').DataTable({
-                    "serverSide": true,
-                    "processing": true,
-                    "ajax": {
-                        "url": "{{ route('pelanggan.dataTable') }}",
-                        "dataType": "json",
-                        "type": "POST",
-                        "data": {
-                            _token: "{{csrf_token()}}"
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title"></h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body p-0" style="margin: 20px">
+                <table id="tbl_list" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Nama Pelanggan</th>
+                            <th>Alamat</th>
+                            <th>No Telepon</th>
+                            <th>Email</th>
+                            <th>Nomor Identifikasi</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </section>
+@endsection
+
+@section('script_footer')
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var table = $('#tbl_list').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ url()->current() }}',
+                columns: [
+                    { data: 'namaPelanggan', name: 'namaPelanggan' },
+                    { data: 'alamat', name: 'alamat' },
+                    { data: 'noTelepon', name: 'noTelepon' },
+                    { data: 'email', name: 'email' },
+                    { data: 'noIdentifikasi', name: 'noIdentifikasi' },
+                    {
+                        data: 'idPelanggan',
+                        name: 'idPelanggan',
+                        render: function (data, type, full, meta) {
+                            return '<a href="#" class="editData" data-id="' + data + '"><i class="fas fa-edit fa-lg"></i></a> ' +
+                                   '<a href="#" class="hapusData" data-id="' + data + '"><i class="fas fa-trash fa-lg text-danger"></i></a>';
                         }
                     },
-                    "columns": [
-                        {
-                            "data": "namaPelanggan"
-                        }, {
-                            "data": "alamat"
-                        }, {
-                            "data": "noTelepon"
-                        }, {
-                            "data": "email"
-                        }, {
-                            "data": "noIdentifikasi"
-                        }, {
-                            "data": "options"
-                        }
-                    ],
-                    "language": {
-                        "decimal": "",
-                        "emptyTable": "Tak ada data yang tersedia pada tabel ini",
-                        "info": "Menampilkan _START_ hingga _END_ dari _TOTAL_ entri",
-                        "infoEmpty": "Menampilkan 0 hingga 0 dari 0 entri",
-                        "infoFiltered": "(difilter dari _MAX_ total entri)",
-                        "infoPostFix": "",
-                        "thousands": ",",
-                        "lengthMenu": "Tampilkan _MENU_ entri",
-                        "loadingRecords": "Loading...",
-                        "processing": "Sedang Mengambil Data...",
-                        "search": "Pencarian:",
-                        "zeroRecords": "Tidak ada data yang cocok ditemukan",
-                        "paginate": {
-                            "first": "Pertama",
-                            "last": "Terakhir",
-                            "next": "Selanjutnya",
-                            "previous": "Sebelumnya"
-                        },
-                        "aria": {
-                            "sortAscending": ": aktifkan untuk mengurutkan kolom ascending",
-                            "sortDescending": ": aktifkan untuk mengurutkan kolom descending"
-                        }
-                    }
+                ]
+            });
 
-                });
+            // Edit button click event
+            $('#tbl_list').on('click', '.editData', function (e) {
+                e.preventDefault();
+                var idPelanggan = $(this).data('id');
+                window.location.href = '{{ route("pelanggan.edit", ["idPelanggan" => ":idPelanggan"]) }}'.replace(':idPelanggan', idPelanggan);
+            });
 
-                // hapus data
-                $('#previewPelanggan').on('click', '.hapusData', function () {
-                    var id = $(this).data("id");
-                    var url = $(this).data("url");
-                    Swal
-                        .fire({
-                            title: 'Apa kamu yakin?',
-                            text: "Kamu tidak akan dapat mengembalikan ini!",
-                            icon: 'warning',
-                            showCancelButton: true,
-                            confirmButtonColor: '#3085d6',
-                            cancelButtonColor: '#d33',
-                            confirmButtonText: 'Ya, hapus!',
-                            cancelButtonText: 'Batal'
-                        })
-                        .then((result) => {
-                            if (result.isConfirmed) {
-                                // console.log();
-                                $.ajax({
-                                    url: url,
-                                    type: 'DELETE',
-                                    data: {
-                                        "id": id,
-                                        "_token": "{{csrf_token()}}"
-                                    },
-                                    success: function (response) {
-                                        // console.log();
-                                        Swal.fire('Terhapus!', response.msg, 'success');
-                                        $('#previewPelanggan').DataTable().ajax.reload();
-                                    }
-                                });
+            // Delete button click event
+            $('#tbl_list').on('click', '.hapusData', function (e) {
+                e.preventDefault();
+                var idPelanggan = $(this).data('id');
+
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: "Data yang dipilih akan dihapus!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: 'DELETE',
+                            url: '{{ route("pelanggan.delete", ["id" => ":id"]) }}'.replace(':id', idPelanggan),
+                            data: {
+                                '_token': '{{ csrf_token() }}',
+                            },
+                            success: function (data) {
+                                table.ajax.reload();
+                                Swal.fire(
+                                    'Terhapus!',
+                                    'Data yang dipilih telah dihapus.',
+                                    'success'
+                                );
+                            },
+                            error: function (error) {
+                                console.log('Error:', error);
                             }
-                        })
+                        });
+                    }
                 });
+            });
         });
-</script>
+    </script>
 @endsection
