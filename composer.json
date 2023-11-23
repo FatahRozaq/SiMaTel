@@ -14,9 +14,11 @@
         "laravel/tinker": "^2.7",
         "laravel/ui": "^3.4",
         "league/config": "^1.1",
+        "maatwebsite/excel": "3.1.48",
         "nette/schema": "^1.2",
         "nette/utils": "^3.2",
         "phpspec/prophecy": "^1.15",
+        "spatie/laravel-html": "*",
         "yajra/laravel-datatables": "9.0"
     },
     "require-dev": {
