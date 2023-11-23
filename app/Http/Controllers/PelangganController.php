@@ -7,14 +7,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Yajra\DataTables\Facades\DataTables;
 
 class PelangganController extends Controller
 {
     public function index()
     {
+        if (request()->ajax()) {
+            $pelanggan = Pelanggan::query();
+            return DataTables::of($pelanggan)
+                ->make();
+        }
         return view('page.admin.pelanggan.index');
     }
-
 
     public function dataTable(Request $request)
     {

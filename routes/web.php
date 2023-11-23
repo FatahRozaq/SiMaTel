@@ -53,7 +53,7 @@ Route::group(['prefix' => 'dashboard/admin'], function () {
         Route::post('showdata', 'dataTable')->name('dataTable');
         Route::match(['get','post'], 'tambah', 'tambahPelanggan')->name('add');
         Route::match(['get','post'], '{idPelanggan}/ubah', 'ubahPelanggan')->name('edit');
-        Route::delete('{idPelanggan}/hapus', 'hapusPelanggan')->name('delete');
+        Route::delete('{id}/hapus', 'hapusPelanggan')->name('delete');
     });
 
     Route::controller(FasilitasHotelController::class)
