@@ -7,6 +7,7 @@ use App\Http\Controllers\AkunController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\FasilitasHotelController;
+use App\Http\Controllers\StaffController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,7 +53,7 @@ Route::group(['prefix' => 'dashboard/admin'], function () {
         Route::post('showdata', 'dataTable')->name('dataTable');
         Route::match(['get','post'], 'tambah', 'tambahPelanggan')->name('add');
         Route::match(['get','post'], '{idPelanggan}/ubah', 'ubahPelanggan')->name('edit');
-        Route::delete('{idPelanggan}/hapus', 'hapusPelanggan')->name('delete');
+        Route::delete('{id}/hapus', 'hapusPelanggan')->name('delete');
     });
 
     Route::controller(FasilitasHotelController::class)
@@ -64,5 +65,16 @@ Route::group(['prefix' => 'dashboard/admin'], function () {
             Route::match(['get','post'],'tambah', 'tambahFasilitas')->name('add');
             Route::match(['get','post'],'{idFasilitas}/ubah', 'ubahFasilitas')->name('edit');
             Route::delete('{id}/hapus', 'hapusAkun')->name('delete');
+        });
+
+    Route::controller(StaffController::class)
+        ->prefix('staff')
+        ->as('staff.')
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('showdata', 'dataTable')->name('dataTable');
+            Route::match(['get','post'],'tambah', 'tambahStaff')->name('add');
+            Route::match(['get','post'],'{idStaff}/ubah', 'ubahStaff')->name('edit');
+            Route::delete('{id}/hapus', 'hapusStaff')->name('delete');
         });
 });

@@ -1,6 +1,6 @@
 @extends('layouts.base_admin.base_dashboard')
 
-@section('judul', 'List Pelanggan Hotel')
+@section('judul', 'List Staff')
 
 @section('script_head')
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
@@ -18,14 +18,14 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Data Pelanggan Hotel</h1>
+                    <h1>Data Staff</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item">
                             <a href="{{ route('home') }}">Beranda</a>
                         </li>
-                        <li class="breadcrumb-item active">Pelanggan Hotel</li>
+                        <li class="breadcrumb-item active">Staff</li>
                     </ol>
                 </div>
             </div>
@@ -51,11 +51,11 @@
                 <table id="tbl_list" class="table table-striped table-bordered" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th>Nama Pelanggan</th>
+                            <th>Nama Staff</th>
                             <th>Alamat</th>
                             <th>No Telepon</th>
                             <th>Email</th>
-                            <th>Nomor Identifikasi</th>
+                            <th>Jabatan</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -81,14 +81,14 @@
                 serverSide: true,
                 ajax: '{{ url()->current() }}',
                 columns: [
-                    { data: 'namaPelanggan', name: 'namaPelanggan' },
+                    { data: 'namaStaff', name: 'namaStaff' },
                     { data: 'alamat', name: 'alamat' },
                     { data: 'noTelepon', name: 'noTelepon' },
                     { data: 'email', name: 'email' },
-                    { data: 'noIdentifikasi', name: 'noIdentifikasi' },
+                    { data: 'jabatan', name: 'jabatan' },
                     {
-                        data: 'idPelanggan',
-                        name: 'idPelanggan',
+                        data: 'idStaff',
+                        name: 'idStaff',
                         render: function (data, type, full, meta) {
                             return '<a href="#" class="editData" data-id="' + data + '"><i class="fas fa-edit fa-lg"></i></a> ' +
                                    '<a href="#" class="hapusData" data-id="' + data + '"><i class="fas fa-trash fa-lg text-danger"></i></a>';
@@ -100,14 +100,14 @@
             // Edit button click event
             $('#tbl_list').on('click', '.editData', function (e) {
                 e.preventDefault();
-                var idPelanggan = $(this).data('id');
-                window.location.href = '{{ route("pelanggan.edit", ["idPelanggan" => ":idPelanggan"]) }}'.replace(':idPelanggan', idPelanggan);
+                var idStaff = $(this).data('id');
+                window.location.href = '{{ route("staff.edit", ["idStaff" => ":idStaff"]) }}'.replace(':idStaff', idStaff);
             });
 
             // Delete button click event
             $('#tbl_list').on('click', '.hapusData', function (e) {
                 e.preventDefault();
-                var idPelanggan = $(this).data('id');
+                var idStaff = $(this).data('id');
 
                 Swal.fire({
                     title: 'Apakah Anda yakin?',
@@ -122,7 +122,7 @@
                     if (result.isConfirmed) {
                         $.ajax({
                             type: 'DELETE',
-                            url: '{{ route("pelanggan.delete", ["id" => ":id"]) }}'.replace(':id', idPelanggan),
+                            url: '{{ route("staff.delete", ["id" => ":id"]) }}'.replace(':id', idStaff),
                             data: {
                                 '_token': '{{ csrf_token() }}',
                             },

@@ -57,6 +57,24 @@ $links = [
             ]
         ]
     ],
+
+    [
+        "text" => "Kelola Staff",
+        "icon" => "fas fa-users",
+        "is_multi" => true,
+        "href" => [
+            [
+                "section_text" => "Data Staff",
+                "section_icon" => "far fa-circle",
+                "section_href" => route('staff.index')
+            ],
+            [
+                "section_text" => "Tambah Staff",
+                "section_icon" => "far fa-circle",
+                "section_href" => route('staff.add')
+            ]
+        ]
+    ],
 ];
 $navigation_links = json_decode(json_encode($links));
 @endphp
