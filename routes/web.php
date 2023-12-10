@@ -54,6 +54,8 @@ Route::group(['prefix' => 'dashboard/admin'], function () {
         Route::match(['get','post'], 'tambah', 'tambahPelanggan')->name('add');
         Route::match(['get','post'], '{idPelanggan}/ubah', 'ubahPelanggan')->name('edit');
         Route::delete('{id}/hapus', 'hapusPelanggan')->name('delete');
+        Route::get('export', 'export')->name('export');
+        Route::post('import', 'import')->name('import');
     });
 
     Route::controller(FasilitasHotelController::class)

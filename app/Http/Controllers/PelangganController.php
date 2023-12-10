@@ -8,9 +8,33 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PelangganExport;
+use App\Imports\PelangganImport;
 
 class PelangganController extends Controller
 {
+    public function export() 
+    {
+        return Excel::download(new PelangganExport, 'pelanggan.xlsx');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls',
+        ]);
+
+        $file = $request->file('file');
+
+        try {
+            Excel::import(new PelangganImport, $file);
+            return redirect()->back()->with('success', 'Data pelanggan berhasil diimpor.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat mengimpor data: ' . $e->getMessage());
+        }
+    }
+
     public function index()
     {
         if (request()->ajax()) {

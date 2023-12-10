@@ -60,7 +60,7 @@ $links = [
 
     [
         "text" => "Kelola Staff",
-        "icon" => "fas fa-users",
+        "icon" => "fas fa-user-tie",
         "is_multi" => true,
         "href" => [
             [
