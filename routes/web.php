@@ -65,6 +65,7 @@ Route::group(['prefix' => 'dashboard/admin'], function () {
             Route::match(['get','post'],'tambah', 'tambahFasilitas')->name('add');
             Route::match(['get','post'],'{idFasilitas}/ubah', 'ubahFasilitas')->name('edit');
             Route::delete('{id}/hapus', 'hapusAkun')->name('delete');
+            
         });
 
     Route::controller(StaffController::class)
@@ -72,9 +73,12 @@ Route::group(['prefix' => 'dashboard/admin'], function () {
         ->as('staff.')
         ->group(function () {
             Route::get('/', 'index')->name('index');
+            Route::get('download', 'export')->name('dw');
+            Route::post('import', 'imports')->name('imports');
             Route::post('showdata', 'dataTable')->name('dataTable');
             Route::match(['get','post'],'tambah', 'tambahStaff')->name('add');
             Route::match(['get','post'],'{idStaff}/ubah', 'ubahStaff')->name('edit');
             Route::delete('{id}/hapus', 'hapusStaff')->name('delete');
         });
+
 });
