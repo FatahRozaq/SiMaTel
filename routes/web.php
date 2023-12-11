@@ -56,6 +56,8 @@ Route::group(['prefix' => 'dashboard/admin', 'middleware' => ['CheckRoles']], fu
         Route::match(['get','post'], 'tambah', 'tambahPelanggan')->name('add');
         Route::match(['get','post'], '{idPelanggan}/ubah', 'ubahPelanggan')->name('edit');
         Route::delete('{id}/hapus', 'hapusPelanggan')->name('delete');
+        Route::get('export', 'export')->name('export');
+        Route::post('import', 'import')->name('import');
     });
 
     Route::controller(FasilitasHotelController::class)
@@ -69,6 +71,7 @@ Route::group(['prefix' => 'dashboard/admin', 'middleware' => ['CheckRoles']], fu
             Route::delete('{id}/hapus', 'hapusAkun')->name('delete');
             Route::post('export-fasilitas', 'exportFasilitas')->name('export');
             Route::post('import-fasilitas', 'importFasilitas')->name('import');
+            
         });
 
     Route::controller(StaffController::class)
@@ -76,6 +79,8 @@ Route::group(['prefix' => 'dashboard/admin', 'middleware' => ['CheckRoles']], fu
         ->as('staff.')
         ->group(function () {
             Route::get('/', 'index')->name('index');
+            Route::get('download', 'export')->name('dw');
+            Route::post('import', 'imports')->name('imports');
             Route::post('showdata', 'dataTable')->name('dataTable');
             Route::match(['get','post'],'tambah', 'tambahStaff')->name('add');
             Route::match(['get','post'],'{idStaff}/ubah', 'ubahStaff')->name('edit');

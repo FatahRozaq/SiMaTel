@@ -16,6 +16,7 @@ class Staff extends Model
         'noTelepon',
         'email',
         'jabatan',
+        'fasilitasHotel',
     ];
 
     protected $hidden = [

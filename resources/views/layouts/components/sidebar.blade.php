@@ -60,7 +60,7 @@ $links = [
 
     [
         "text" => "Kelola Staff",
-        "icon" => "fas fa-users",
+        "icon" => "fas fa-user-tie",
         "is_multi" => true,
         "href" => [
             [
@@ -72,6 +72,11 @@ $links = [
                 "section_text" => "Tambah Staff",
                 "section_icon" => "far fa-circle",
                 "section_href" => route('staff.add')
+            ],
+            [
+                "section_text" => "Download Staff",
+                "section_icon" => "far fa-circle",
+                "section_href" => route('staff.dw')
             ]
         ]
     ],

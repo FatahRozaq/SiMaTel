@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('noTelepon');
             $table->string('email');
             $table->string('jabatan');
+            $table->string('fasilitasHotel');
             $table->timestamps();
         });
     }

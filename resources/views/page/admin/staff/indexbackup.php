@@ -62,6 +62,7 @@
                         <th>No Telepon</th>
                         <th>Email</th>
                         <th>Jabatan</th>
+                        <th>fasilitasHotel</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -104,7 +105,9 @@
                             "data": "email"
                         }, {
                             "data": "jabatan"
-                        }, {
+                        },{
+                            "data": "fasilitasHotel"
+                        },{
                             "data": "options"
                         }
                     ],
