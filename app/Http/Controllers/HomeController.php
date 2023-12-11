@@ -30,6 +30,11 @@ class HomeController extends Controller
         return view('home');
     }
 
+    public function userHome()
+    {
+        return view('page.user.home');
+    }
+
     public function profile()
     {
         return view('page.admin.profile');

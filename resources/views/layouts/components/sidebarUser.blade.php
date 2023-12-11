@@ -1,98 +1,17 @@
 @php
 $links = [
     [
-        "href" => route('home'),
-        "text" => "Dasboard",
+        "href" => route('user.home'),
+        "text" => "Dashboard",
         "icon" => "fas fa-home",
         "is_multi" => false
     ],
     [
-        "text" => "Kelola Akun",
-        "icon" => "fas fa-users",
-        "is_multi" => true,
-        "href" => [
-            [
-                "section_text" => "Data Akun",
-                "section_icon" => "far fa-circle",
-                "section_href" => route('akun.index')
-            ],
-            [
-                "section_text" => "Tambah Akun",
-                "section_icon" => "far fa-circle",
-                "section_href" => route('akun.add')
-            ]
-        ]
-    ],
-    [
-        "text" => "Kelola Pelanggan",
-        "icon" => "fas fa-user",
-        "is_multi" => true,
-        "href" => [
-            [
-                "section_text" => "Data Pelanggan",
-                "section_icon" => "far fa-circle",
-                "section_href" => route('pelanggan.index')
-            ],
-            [
-                "section_text" => "Tambah Pelanggan",
-                "section_icon" => "far fa-circle",
-                "section_href" => route('pelanggan.add')
-            ]
-        ]
-    ],
-    [
-        "text" => "Kelola Fasilitas Hotel",
-        "icon" => "fa fa-hotel",
-        "is_multi" => true,
-        "href" => [
-            [
-                "section_text" => "Data Fasiltas",
-                "section_icon" => "far fa-circle",
-                "section_href" => route('fasilitas.index')
-            ],
-            [
-                "section_text" => "Tambah Fasilitas",
-                "section_icon" => "far fa-circle",
-                "section_href" => route('fasilitas.add')
-            ]
-        ]
-    ],
-
-    [
-        "text" => "Kelola Staff",
-        "icon" => "fas fa-users",
-        "is_multi" => true,
-        "href" => [
-            [
-                "section_text" => "Data Staff",
-                "section_icon" => "far fa-circle",
-                "section_href" => route('staff.index')
-            ],
-            [
-                "section_text" => "Tambah Staff",
-                "section_icon" => "far fa-circle",
-                "section_href" => route('staff.add')
-            ]
-        ]
-    ],
-
-    [
-        "text" => "Kelola Kamar Hotel",
-        "icon" => "fas fa-bed",
-        "is_multi" => true,
-        "href" => [
-            [
-                "section_text" => "Data Kamar Hotel",
-                "section_icon" => "far fa-circle",
-                "section_href" => route('kamar.index')
-            ],
-            [
-                "section_text" => "Tambah Kamar Hotel",
-                "section_icon" => "far fa-circle",
-                "section_href" => route('kamar.add')
-            ]
-        ]
-    ],
+        "href" => route('user.reservasi'),
+        "text" => "Reservasi",
+        "icon" => "fas fa-home",
+        "is_multi" => false
+    ]
 ];
 $navigation_links = json_decode(json_encode($links));
 @endphp
