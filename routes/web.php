@@ -106,6 +106,8 @@ Route::get('/userProfile', [HomeController::class, 'profile'])->name('user.profi
 Route::post('update', [HomeController::class, 'updateprofile'])->name('profile.update');
 // Route::get('user/reservasi', [ReservasiController::class, 'index'])->name('user.reservasi');
 // Route::match(['get', 'post'], 'user/buatReservasi', 'ReservasiController@buatReservasi')->name('user.reservasi.add');
-
+Route::match(['get', 'post'], 'user/aktivasi', [HomeController::class, 'aktivasiPelanggan'])->name('user.aktivasi');
 Route::match(['get', 'post'], 'user/reservasi', [ReservasiController::class, 'index'])->name('user.reservasi');
-
+Route::match(['get', 'post'], 'user/transaksi/{idReservasi}', [ReservasiController::class, 'transaksi'])->name('user.transaksi');
+Route::get('user/dataReservasi', [ReservasiController::class, 'indexReservasi'])->name('user.indexReservasi');
+// Route::get('user/transaksi/{id}', [ReservasiController::class, 'transaksi'])->name('user.transaksi');

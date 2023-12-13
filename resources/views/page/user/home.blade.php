@@ -104,31 +104,34 @@
 
                                 <br>
                                 <br>
-                                <b>Username:</b><br>
-                                <i>Please have customization as needed</i>
-
-                                <br>
-                                <br>
                                 <b>No Handphone</b>
                                 <br>
-                                <i>Please have customization as needed</i>
+                                @if($pelanggan)
+                                <i>{{ $pelanggan->noTelepon }}</i>
+                                @else
+                                <i>Aktivasi Sebagai Pelanggan Terlebih Dahulu</i>
+                                @endif
 
                                 <br><br>
                                 <b>Alamat</b>
                                 <br>
-                                <i>Please have customization as needed</i>
+                                <i>Aktivasi Sebagai Pelanggan Terlebih Dahulu</i>
 
                                 <br>
                                 <br>
-                                <b>Roles:</b>
+                                <b>Nomor Identifikasi</b>
                                 <br>
-                                <i>Please have customization as needed</i>
+                                <i>Aktivasi Sebgai Pelanggan Terlebih Dahulu</i>
 
                                 <br>
                                 <br>
                                 <b>Bergabung pada:</b>
                                 <br>
                                 @DateIndo(Auth::user()->created_at)
+
+                                <div class="col-12">
+                                    <a href="{{  route('user.aktivasi') }}" class="btn btn-primary float-right">Aktivasi Pelanggan</a>
+                                </div>
                             </div>
                             <!-- /.tab-pane -->
 

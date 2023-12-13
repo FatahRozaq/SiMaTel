@@ -7,11 +7,22 @@ $links = [
         "is_multi" => false
     ],
     [
-        "href" => route('user.reservasi'),
         "text" => "Reservasi",
-        "icon" => "fas fa-home",
-        "is_multi" => false
-    ]
+        "icon" => "fas fa-bed",
+        "is_multi" => true,
+        "href" => [
+            [
+                "section_text" => "List Reservasi",
+                "section_icon" => "far fa-circle",
+                "section_href" => route('user.indexReservasi')
+            ],
+            [
+                "section_text" => "Tambah Reservasi",
+                "section_icon" => "far fa-circle",
+                "section_href" => route('user.reservasi')
+            ]
+        ]
+    ],
 ];
 $navigation_links = json_decode(json_encode($links));
 @endphp

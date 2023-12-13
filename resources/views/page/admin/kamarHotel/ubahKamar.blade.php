@@ -112,8 +112,8 @@
                                     required="required"
                                     autocomplete="status"
                                 >
-                                    <option value="Buka" @if($kamar->status === 'Kosong') selected @endif>Kosong</option>
-                                    <option value="Penuh" @if($kamar->status === 'Terisi') selected @endif>Terisi</option>
+                                    <option value="Tersedia" @if($kamar->status === 'Tersedia') selected @endif>Tersedia</option>
+                                    <option value="Terisi" @if($kamar->status === 'Terisi') selected @endif>Terisi</option>
                                     <option value="Perbaikan" @if($kamar->status === 'Perbaikan') selected @endif>Perbaikan</option>
                                     <!-- Tambahkan opsi status lainnya sesuai kebutuhan -->
                                 </select>
