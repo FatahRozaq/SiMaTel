@@ -115,13 +115,21 @@
                                 <br><br>
                                 <b>Alamat</b>
                                 <br>
+                                @if($pelanggan)
+                                <i>{{ $pelanggan->alamat }}</i>
+                                @else
                                 <i>Aktivasi Sebagai Pelanggan Terlebih Dahulu</i>
+                                @endif
 
                                 <br>
                                 <br>
                                 <b>Nomor Identifikasi</b>
                                 <br>
-                                <i>Aktivasi Sebgai Pelanggan Terlebih Dahulu</i>
+                                @if($pelanggan)
+                                <i>{{ $pelanggan->noIdentifikasi }}</i>
+                                @else
+                                <i>Aktivasi Sebagai Pelanggan Terlebih Dahulu</i>
+                                @endif
 
                                 <br>
                                 <br>

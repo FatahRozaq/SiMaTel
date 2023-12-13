@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Log;
+use Session;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\FasilitasHotel;
@@ -12,7 +14,6 @@ use App\Exports\FasilitasHotelExport;
 use App\Imports\FasilitasHotelImport;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
-use Session;
 
 class FasilitasHotelController extends Controller
 {
@@ -39,12 +40,18 @@ class FasilitasHotelController extends Controller
     
     public function index()
     {
-        if (request()->ajax()) {
-            $fasilitasHotel = FasilitasHotel::query();
-            return DataTables::of($fasilitasHotel)
-                ->make();
+        try {
+            if (request()->ajax()) {
+                $fasilitasHotel = FasilitasHotel::query();
+                return DataTables::of($fasilitasHotel)->make();
+            }
+    
+            return view('page.admin.fasilitasHotel.index');
+        } catch (\Exception $e) {
+            Log::error('Error in FasilitasHotelController@index: ' . $e->getMessage());
+            
+            return response()->json(['error' => 'An error occurred. Please try again.'], 500);
         }
-        return view('page.admin.fasilitasHotel.index');
     }
 
     public function dataTable(Request $request)
@@ -122,57 +129,83 @@ class FasilitasHotelController extends Controller
 
     public function tambahFasilitas(Request $request)
     {
-        if ($request->isMethod('post')) {
+        try {
+            if ($request->isMethod('post')) {
+                $this->validate($request, [
+                    'namaFasilitas' => 'required|string|max:200|min:3',
+                    'deskripsi' => 'required|string|max:200|min:3',
+                    'jumlahTamu' => 'required',
+                    'status' => 'required',
+                ]);
 
-            $this->validate($request, [
-                'namaFasilitas' => 'required|string|max:200|min:3',
-                'deskripsi' => 'required|string|max:200|min:3',
-                'jumlahTamu' => 'required',
-                'status' => 'required',
-            ]);
-            
-            FasilitasHotel::create([
-                'namaFasilitas' => $request->namaFasilitas,
-                'deskripsi' => $request->deskripsi,
-                'jumlahTamu' => $request->jumlahTamu,
-                'status' => $request->status,
-            ]);
-            return redirect()->route('fasilitas.add')->with('status', 'Data telah tersimpan di database');
+                FasilitasHotel::create([
+                    'namaFasilitas' => $request->namaFasilitas,
+                    'deskripsi' => $request->deskripsi,
+                    'jumlahTamu' => $request->jumlahTamu,
+                    'status' => $request->status,
+                ]);
+
+                return redirect()->route('fasilitas.add')->with('status', 'Data telah tersimpan di database');
+            }
+
+            return view('page.admin.fasilitasHotel.addFasilitas');
+        } catch (\Exception $e) {
+            Log::error('Error in FasilitasHotelController@tambahFasilitas: ' . $e->getMessage());
+
+            return redirect()->route('fasilitas.add')->with('error', 'An error occurred. Please try again.');
         }
-        return view('page.admin.fasilitasHotel.addFasilitas');
     }
+
 
     public function ubahFasilitas($idFasilitas, Request $request)
     {
-        $fasilitas = FasilitasHotel::findOrFail($idFasilitas);
-        if ($request->isMethod('post')) {
+        try {
+            $fasilitas = FasilitasHotel::findOrFail($idFasilitas);
 
-            $this->validate($request, [
-                'namaFasilitas' => 'required|string|max:200|min:3',
-                'deskripsi' => 'required|string|max:200|min:3',
-                'jumlahTamu' => 'required',
-                'status' => 'required',
-            ]);
-            $fasilitas->update([
-                'namaFasilitas' => $request->namaFasilitas,
-                'deskripsi' => $request->deskripsi,
-                'jumlahTamu' => $request->jumlahTamu,
-                'status' => $request->status,
-            ]);
-            return redirect()->route('fasilitas.edit',['idFasilitas' => $fasilitas->idFasilitas ])->with('status', 'Data telah tersimpan di database');
+            if ($request->isMethod('post')) {
+                $this->validate($request, [
+                    'namaFasilitas' => 'required|string|max:200|min:3',
+                    'deskripsi' => 'required|string|max:200|min:3',
+                    'jumlahTamu' => 'required',
+                    'status' => 'required',
+                ]);
+
+                $fasilitas->update([
+                    'namaFasilitas' => $request->namaFasilitas,
+                    'deskripsi' => $request->deskripsi,
+                    'jumlahTamu' => $request->jumlahTamu,
+                    'status' => $request->status,
+                ]);
+
+                return redirect()->route('fasilitas.edit', ['idFasilitas' => $fasilitas->idFasilitas])
+                    ->with('status', 'Data telah tersimpan di database');
+            }
+
+            return view('page.admin.fasilitasHotel.ubahFasilitas', ['fasilitas' => $fasilitas]);
+        } catch (\Exception $e) {
+            Log::error('Error in FasilitasHotelController@ubahFasilitas: ' . $e->getMessage());
+
+            return redirect()->route('fasilitas.edit', ['idFasilitas' => $idFasilitas])
+                ->with('error', 'An error occurred. Please try again.');
         }
-        return view('page.admin.fasilitasHotel.ubahFasilitas', [
-            'fasilitas' => $fasilitas
-        ]);
     }
 
     public function hapusAkun($idFasilitas)
     {
-        $fasilitas = FasilitasHotel::findOrFail($idFasilitas);
-        
-        $fasilitas->delete($idFasilitas);
-        return response()->json([
-            'msg' => 'Data yang dipilih telah dihapus'
-        ]);
+        try {
+            $fasilitas = FasilitasHotel::findOrFail($idFasilitas);
+
+            $fasilitas->delete();
+
+            return response()->json([
+                'msg' => 'Data yang dipilih telah dihapus'
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error in YourController@hapusAkun: ' . $e->getMessage());
+
+            return response()->json([
+                'error' => 'Terjadi kesalahan saat menghapus data. Silakan coba lagi.'
+            ], 500);
+        }
     }
 }

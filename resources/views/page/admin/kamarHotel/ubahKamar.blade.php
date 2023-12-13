@@ -66,42 +66,6 @@
                                 </span>
                                 @enderror
                             </div>
-                            <div class="form-group">
-                                <label for="inputhargaPerMalam">Harga Per Malam</label>
-                                <input
-                                    type="text"
-                                    id="inputhargaPerMalam"
-                                    name="hargaPerMalam"
-                                    class="form-control @error('hargaPerMalam') is-invalid @enderror"
-                                    placeholder="Masukkan Harga Per Malam"
-                                    value="{{ $kamar->hargaPerMalam }}"
-                                    required="required"
-                                    autocomplete="hargaPerMalam">
-                                @error('hargaPerMalam')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-
-                            <div class="form-group">
-                                <label for="inputkapasitas">Kapasitas</label>
-                                <input
-                                    type="number"
-                                    id="inputkapasitas"
-                                    name="kapasitas"
-                                    class="form-control @error('kapasitas') is-invalid @enderror"
-                                    placeholder="Masukkan Jumlah Tamu"
-                                    value="{{ $kamar->kapasitas }}"
-                                    required="required"
-                                    autocomplete="kapasitas"
-                                >
-                                @error('kapasitas')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
 
                             <div class="form-group">
                                 <label for="inputStatus">Status</label>

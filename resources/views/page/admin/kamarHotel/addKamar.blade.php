@@ -51,50 +51,19 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="inputtipeKamar">TipeKamar</label>
-                                <input
-                                    type="text"
+                                <select
                                     id="inputTipeKamar"
                                     name="tipeKamar"
                                     class="form-control @error('tipeKamar') is-invalid @enderror"
-                                    placeholder="Masukkan Tipe Kamar"
-                                    value="{{ old('tipeKamar') }}"
                                     required="required"
-                                    autocomplete="tipeKamar">
+                                    autocomplete="tipeKamar"
+                                >
+                                    <option value="Pilih Status" disabled selected>Pilih Tipe Kamar</option>
+                                    <option value="Standard">Standard</option>
+                                    <option value="Suite">Suite</option>
+                                    <option value="Deluxe">Deluxe</option>
+                                </select>
                                 @error('tipeKamar')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="inputhargaPerMalam">Harga Per Malam</label>
-                                <input
-                                    type="text"
-                                    id="inputhargaPerMalam"
-                                    name="hargaPerMalam"
-                                    class="form-control @error('hargaPerMalam') is-invalid @enderror"
-                                    placeholder="Masukkan Harga Per Malam"
-                                    value="{{ old('hargaPerMalam') }}"
-                                    required="required"
-                                    autocomplete="hargaPerMalam">
-                                @error('hargaPerMalam')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="inputkapasitas">kapasitas</label>
-                                <input
-                                    type="text"
-                                    id="inputkapasitas"
-                                    name="kapasitas"
-                                    class="form-control @error('kapasitas') is-invalid @enderror"
-                                    placeholder="Masukkan Harga Per Malam"
-                                    value="{{ old('kapasitas') }}"
-                                    required="required"
-                                    autocomplete="kapasitas">
-                                @error('kapasitas')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>

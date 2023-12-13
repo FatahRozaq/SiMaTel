@@ -99,7 +99,7 @@ class HomeController extends Controller
                 'noTelepon' =>  $request->noTelepon,
                 'email' => $user->email,
                 'noIdentifikasi' => $request->noIdentifikasi,
-                'idUser' => 3,
+                'idUser' => $userId,
             ]);
 
             return redirect()->route('user.home')->with('status', 'Aktivasi Pelanggan telah berhasil');

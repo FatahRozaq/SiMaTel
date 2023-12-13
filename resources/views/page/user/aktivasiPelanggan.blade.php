@@ -1,4 +1,4 @@
-@extends('layouts.base_admin.base_dashboard') @section('judul', 'Aktivasi Pelanggan')
+@extends('layouts.base_user.base_dashboard') @section('judul', 'Aktivasi Pelanggan')
 @section('content')
 <!-- Content Header (Page header) -->
 <section class="content-header">
