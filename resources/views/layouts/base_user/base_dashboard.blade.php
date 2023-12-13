@@ -19,9 +19,9 @@
     <body class="hold-transition sidebar-mini">
         <!-- Site wrapper -->
         <div class="wrapper">
-            @include('layouts.components.navbar')
+            @include('layouts.components.navbarUser')
 
-            @include('layouts.components.sidebar')
+            @include('layouts.components.sidebarUser')
 
             <div class="content-wrapper">
                 @yield('content')

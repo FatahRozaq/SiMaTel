@@ -1,6 +1,6 @@
 @extends('layouts.base_admin.base_dashboard')
 
-@section('judul', 'List Fasilitas Hotel')
+@section('judul', 'List Kamar Hotel')
 
 @section('script_head')
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
@@ -14,7 +14,7 @@
 @endsection
 
 @section('content')
-<a href="{{ route('fasilitas.export') }}" class="btn btn-success">Export Fasilitas</a>
+<a href="{{ route('kamar.export') }}" class="btn btn-success">Export Kamar</a>
 
         <button type="button" class="btn btn-primary mr-5" data-toggle="modal" data-target="#importExcel">
 			IMPORT EXCEL
@@ -22,7 +22,7 @@
 		<!-- Import Excel -->
 		<div class="modal fade" id="importExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
-				<form method="post" action="{{ route('fasilitas.import') }}" enctype="multipart/form-data">
+				<form method="post" action="{{ route('kamar.import') }}" enctype="multipart/form-data">
 					<div class="modal-content">
 						<div class="modal-header">
 							<h5 class="modal-title" id="exampleModalLabel">Import Excel</h5>
@@ -49,14 +49,14 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Data Fasilitas Hotel</h1>
+                    <h1>Data Kamar Hotel</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item">
                             <a href="{{ route('home') }}">Beranda</a>
                         </li>
-                        <li class="breadcrumb-item active">Fasilitas Hotel</li>
+                        <li class="breadcrumb-item active">Kamar Hotel</li>
                     </ol>
                 </div>
             </div>
@@ -82,10 +82,10 @@
                 <table id="tbl_list" class="table table-striped table-bordered" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th>Nama Fasilitas</th>
+                            <th>Tipe Kamar</th>
+                            <th>Harga Per Malam</th>
+                            <th>Kapasitas</th>
                             <th>Status</th>
-                            <th>Jumlah Tamu</th>
-                            <th>Deskripsi</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -111,13 +111,13 @@
                 serverSide: true,
                 ajax: '{{ url()->current() }}',
                 columns: [
-                    { data: 'namaFasilitas', name: 'namaFasilitas' },
+                    { data: 'tipeKamar', name: 'tipeKamar' },
+                    { data: 'hargaPerMalam', name: 'hargaPerMalam' },
+                    { data: 'kapasitas', name: 'kapasitas' },
                     { data: 'status', name: 'status' },
-                    { data: 'jumlahTamu', name: 'jumlahTamu' },
-                    { data: 'deskripsi', name: 'deskripsi' },
                     {
-                        data: 'idFasilitas',
-                        name: 'idFasilitas',
+                        data: 'idKamar',
+                        name: 'idKamar',
                         render: function (data, type, full, meta) {
                             return '<a href="#" class="editData" data-id="' + data + '"><i class="fas fa-edit fa-lg"></i></a> ' +
                                    '<a href="#" class="hapusData" data-id="' + data + '"><i class="fas fa-trash fa-lg text-danger"></i></a>';
@@ -129,14 +129,14 @@
             // Edit button click event
             $('#tbl_list').on('click', '.editData', function (e) {
                 e.preventDefault();
-                var idFasilitas = $(this).data('id');
-                window.location.href = '{{ route("fasilitas.edit", ["idFasilitas" => ":idFasilitas"]) }}'.replace(':idFasilitas', idFasilitas);
+                var idKamar = $(this).data('id');
+                window.location.href = '{{ route("kamar.edit", ["idKamar" => ":idKamar"]) }}'.replace(':idKamar', idKamar);
             });
 
             // Delete button click event
             $('#tbl_list').on('click', '.hapusData', function (e) {
                 e.preventDefault();
-                var idFasilitas = $(this).data('id');
+                var idKamar = $(this).data('id');
 
                 Swal.fire({
                     title: 'Apakah Anda yakin?',
@@ -151,7 +151,7 @@
                     if (result.isConfirmed) {
                         $.ajax({
                             type: 'DELETE',
-                            url: '{{ route("fasilitas.delete", ["id" => ":id"]) }}'.replace(':id', idFasilitas),
+                            url: '{{ route("kamar.delete", ["id" => ":id"]) }}'.replace(':id', idKamar),
                             data: {
                                 '_token': '{{ csrf_token() }}',
                             },

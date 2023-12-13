@@ -1,6 +1,6 @@
-@extends('layouts.base_admin.base_dashboard')
+@extends('layouts.base_user.base_dashboard')
 
-@section('judul', 'List Fasilitas Hotel')
+@section('judul', 'List Kamar Hotel')
 
 @section('script_head')
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
@@ -9,54 +9,31 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-    <!-- Styles -->
+    <!-- Styles --> 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 @endsection
 
 @section('content')
-<a href="{{ route('fasilitas.export') }}" class="btn btn-success">Export Fasilitas</a>
 
-        <button type="button" class="btn btn-primary mr-5" data-toggle="modal" data-target="#importExcel">
-			IMPORT EXCEL
-		</button>
-		<!-- Import Excel -->
-		<div class="modal fade" id="importExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<form method="post" action="{{ route('fasilitas.import') }}" enctype="multipart/form-data">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLabel">Import Excel</h5>
-						</div>
-						<div class="modal-body">
- 
-							{{ csrf_field() }}
- 
-							<label>Pilih file excel</label>
-							<div class="form-group">
-								<input type="file" name="file" required="required">
-							</div>
- 
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-							<button type="submit" class="btn btn-primary">Import</button>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
+@if(session('status'))
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fa fa-check"></i>Berhasil!</h4>
+        {{ session('status') }}
+    </div>
+@endif
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Data Fasilitas Hotel</h1>
+                    <h1>Data Reservasi</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item">
-                            <a href="{{ route('home') }}">Beranda</a>
+                            <a href="{{ route('user.home') }}">Beranda</a>
                         </li>
-                        <li class="breadcrumb-item active">Fasilitas Hotel</li>
+                        <li class="breadcrumb-item active">Reservasi</li>
                     </ol>
                 </div>
             </div>
@@ -82,11 +59,13 @@
                 <table id="tbl_list" class="table table-striped table-bordered" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th>Nama Fasilitas</th>
+                            <th>ID Rervasi</th>
+                            <th>ID Kamar</th>
+                            <th>Tanggal Check In</th>
+                            <th>Tanggal Check Out</th>
                             <th>Status</th>
-                            <th>Jumlah Tamu</th>
-                            <th>Deskripsi</th>
-                            <th>Action</th>
+                            <th>Bayar</th>
+                            <th>Hapus</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -111,32 +90,38 @@
                 serverSide: true,
                 ajax: '{{ url()->current() }}',
                 columns: [
-                    { data: 'namaFasilitas', name: 'namaFasilitas' },
+                    { data: 'idReservasi', name: 'idReservasi' },
+                    { data: 'idKamar', name: 'idKamar' },
+                    { data: 'tanggalCheckIn', name: 'tanggalCheckIn' },
+                    { data: 'tanggalCheckOut', name: 'tanggalCheckOut' },
                     { data: 'status', name: 'status' },
-                    { data: 'jumlahTamu', name: 'jumlahTamu' },
-                    { data: 'deskripsi', name: 'deskripsi' },
                     {
-                        data: 'idFasilitas',
-                        name: 'idFasilitas',
+                        data: 'idReservasi',
+                        name: 'idReservasi',
                         render: function (data, type, full, meta) {
-                            return '<a href="#" class="editData" data-id="' + data + '"><i class="fas fa-edit fa-lg"></i></a> ' +
-                                   '<a href="#" class="hapusData" data-id="' + data + '"><i class="fas fa-trash fa-lg text-danger"></i></a>';
+                            var routeUrl = '{{ route("user.transaksi", ":idReservasi") }}';
+                            routeUrl = routeUrl.replace(':idReservasi', data);
+
+                            return '<a href="' + routeUrl + '" class="bayar" data-id="' + data + '"><i class="fas fa-edit fa-lg"></i></a>';
                         }
                     },
+                    {
+                        data: 'idReservasi',
+                        name: 'idReservasi',
+                        render: function (data, type, full, meta) {
+                            return '<a href="#" class="hapusData" data-id="' + data + '"><i class="fas fa-trash fa-lg text-danger"></i></a>';
+                        }
+                    }
                 ]
             });
 
             // Edit button click event
-            $('#tbl_list').on('click', '.editData', function (e) {
-                e.preventDefault();
-                var idFasilitas = $(this).data('id');
-                window.location.href = '{{ route("fasilitas.edit", ["idFasilitas" => ":idFasilitas"]) }}'.replace(':idFasilitas', idFasilitas);
-            });
+            
 
             // Delete button click event
             $('#tbl_list').on('click', '.hapusData', function (e) {
                 e.preventDefault();
-                var idFasilitas = $(this).data('id');
+                var idKamar = $(this).data('id');
 
                 Swal.fire({
                     title: 'Apakah Anda yakin?',
@@ -151,7 +136,7 @@
                     if (result.isConfirmed) {
                         $.ajax({
                             type: 'DELETE',
-                            url: '{{ route("fasilitas.delete", ["id" => ":id"]) }}'.replace(':id', idFasilitas),
+                            url: '{{ route("kamar.delete", ["id" => ":id"]) }}'.replace(':id', idKamar),
                             data: {
                                 '_token': '{{ csrf_token() }}',
                             },
