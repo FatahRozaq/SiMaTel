@@ -72,11 +72,6 @@ $links = [
                 "section_text" => "Tambah Staff",
                 "section_icon" => "far fa-circle",
                 "section_href" => route('staff.add')
-            ],
-            [
-                "section_text" => "Download Staff",
-                "section_icon" => "far fa-circle",
-                "section_href" => route('staff.dw')
             ]
         ]
     ],

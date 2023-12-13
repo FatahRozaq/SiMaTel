@@ -20,6 +20,7 @@ class StaffImport implements ToModel
             'noTelepon' => $row[3], 
             'email' => $row[4], 
             'jabatan' => $row[5], 
+            'fasilitasHotel' => $row[6], 
         ]);
     }
 }

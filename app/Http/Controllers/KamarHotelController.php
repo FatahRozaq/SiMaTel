@@ -11,6 +11,26 @@ use Yajra\DataTables\Facades\DataTables;
 
 class KamarHotelController extends Controller
 {
+    public function export() 
+    {
+        return Excel::download(new KamarHotelExport, 'KamarHotel.xlsx');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls',
+        ]);
+
+        $file = $request->file('file');
+
+        try {
+            Excel::import(new KamarHotelImport, $file);
+            return redirect()->back()->with('success', 'Data KamarHotel berhasil diimpor.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat mengimpor data: ' . $e->getMessage());
+        }
+    }
     public function index()
     {
         if (request()->ajax()) {
@@ -75,27 +95,5 @@ class KamarHotelController extends Controller
         return response()->json([
             'msg' => 'Data yang dipilih telah dihapus'
         ]);
-    }
-
-    public function exportKamar()
-    {
-        return Excel::download(new KamarHotelExport, 'kamar_hotel.xlsx');
-    }
-
-    public function importKamar(Request $request)
-    {
-		$this->validate($request, [
-			'file' => 'required|mimes:csv,xls,xlsx'
-		]);
- 
-		$file = $request->file('file');
- 
-		Excel::import(new KamarHotelImport, $file);
- 
-		// notifikasi dengan session
-		// Session::flash('sukses','Data Siswa Berhasil Diimport!');
- 
-		// alihkan halaman kembali
-		return redirect('page.admin.kamarHotel.index');
     }
 }

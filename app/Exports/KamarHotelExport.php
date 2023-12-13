@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Models\KamarHotel;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
 class KamarHotelExport implements FromCollection
@@ -11,6 +12,6 @@ class KamarHotelExport implements FromCollection
     */
     public function collection()
     {
-        //
+        return KamarHotel::all();
     }
 }

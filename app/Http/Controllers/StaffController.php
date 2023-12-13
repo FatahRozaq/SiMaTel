@@ -16,7 +16,7 @@ class StaffController extends Controller
 {
     public function export() 
     {
-        return Excel::download(new StaffExport, 'staff.xlsx');
+        return Excel::download(new StaffExport, 'Staff.xlsx');
     }
 
     public function imports(Request $request) 
@@ -30,14 +30,17 @@ class StaffController extends Controller
 		$file = $request->file('file');
 
  
-		// import data
-		Excel::import(new StaffImport, $file);
  
 		// notifikasi dengan session
 		
  
 		// alihkan halaman kembali
-		return redirect('staff.index');
+        try {
+            Excel::import(new StaffImport, $file);
+            return redirect()->back()->with('success', 'Data staff berhasil diimpor.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat mengimpor data: ' . $e->getMessage());
+        }
 	}
 
     public function index()

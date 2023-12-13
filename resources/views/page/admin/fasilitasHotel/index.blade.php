@@ -14,37 +14,6 @@
 @endsection
 
 @section('content')
-<a href="{{ route('fasilitas.export') }}" class="btn btn-success">Export Fasilitas</a>
-
-        <button type="button" class="btn btn-primary mr-5" data-toggle="modal" data-target="#importExcel">
-			IMPORT EXCEL
-		</button>
-		<!-- Import Excel -->
-		<div class="modal fade" id="importExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<form method="post" action="{{ route('fasilitas.import') }}" enctype="multipart/form-data">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLabel">Import Excel</h5>
-						</div>
-						<div class="modal-body">
- 
-							{{ csrf_field() }}
- 
-							<label>Pilih file excel</label>
-							<div class="form-group">
-								<input type="file" name="file" required="required">
-							</div>
- 
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-							<button type="submit" class="btn btn-primary">Import</button>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -69,6 +38,40 @@
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title"></h3>
+
+                
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                        <i class="fas fa-file-excel"></i> Import Data
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Import Data</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Form untuk Memilih File -->
+                                    <form action="{{ route('fasilitas.import') }}" method="post" enctype="multipart/form-data">
+                                            @csrf
+                                            <div class="form-group">
+                                                <label for="file">Type: .xlsx, .xls</label>
+                                                <input type="file" name="file" class="form-control">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Import Data</button>
+                                        </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Tombol Ekspor Excel -->
+                    <a href="{{ route('fasilitas.export') }}" class="btn btn-success">
+                        <i class="fas fa-file-excel"></i> Ekspor Excel
+                    </a>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                         <i class="fas fa-minus"></i>

@@ -16,6 +16,27 @@ use Session;
 
 class FasilitasHotelController extends Controller
 {
+    public function export() 
+    {
+        return Excel::download(new FasilitasHotelExport, 'FasilitasHotel.xlsx');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls',
+        ]);
+
+        $file = $request->file('file');
+
+        try {
+            Excel::import(new FasilitasHotelImport, $file);
+            return redirect()->back()->with('success', 'Data fasilitasHotel berhasil diimpor.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat mengimpor data: ' . $e->getMessage());
+        }
+    }
+    
     public function index()
     {
         if (request()->ajax()) {
@@ -153,27 +174,5 @@ class FasilitasHotelController extends Controller
         return response()->json([
             'msg' => 'Data yang dipilih telah dihapus'
         ]);
-    }
-
-    public function exportFasilitas()
-    {
-        return Excel::download(new FasilitasHotelExport, 'fasilitas_hotel.xlsx');
-    }
-
-    public function importFasilitas(Request $request)
-    {
-		$this->validate($request, [
-			'file' => 'required|mimes:csv,xls,xlsx'
-		]);
- 
-		$file = $request->file('file');
- 
-		Excel::import(new FasilitasHotelImport, $file);
- 
-		// notifikasi dengan session
-		// Session::flash('sukses','Data Siswa Berhasil Diimport!');
- 
-		// alihkan halaman kembali
-		return redirect('page.admin.fasilitasHotel.index');
     }
 }

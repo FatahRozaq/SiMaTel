@@ -2,16 +2,24 @@
 
 namespace App\Imports;
 
-use Illuminate\Support\Collection;
-use Maatwebsite\Excel\Concerns\ToCollection;
+use App\Models\KamarHotel;
+use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Concerns\ToModel;
 
-class KamarHotelImport implements ToCollection
+class KamarHotelImport implements ToModel
 {
     /**
-    * @param Collection $collection
+    * @param array $row
+    *
+    * @return \Illuminate\Database\Eloquent\Model|null
     */
-    public function collection(Collection $collection)
+    public function model(array $row)
     {
-        //
+        return new KamarHotel([
+            'tipeKamar' => $row[1],
+            'hargaPerMalam' => $row[2], 
+            'kapasitas' => $row[3], 
+            'status' => $row[4],
+        ]);
     }
 }

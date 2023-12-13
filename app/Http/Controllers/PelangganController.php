@@ -16,7 +16,7 @@ class PelangganController extends Controller
 {
     public function export() 
     {
-        return Excel::download(new PelangganExport, 'pelanggan.xlsx');
+        return Excel::download(new PelangganExport, 'Pelanggan.xlsx');
     }
 
     public function import(Request $request)

@@ -69,9 +69,8 @@ Route::group(['prefix' => 'dashboard/admin', 'middleware' => ['CheckRoles']], fu
             Route::match(['get','post'],'tambah', 'tambahFasilitas')->name('add');
             Route::match(['get','post'],'{idFasilitas}/ubah', 'ubahFasilitas')->name('edit');
             Route::delete('{id}/hapus', 'hapusAkun')->name('delete');
-            Route::post('export-fasilitas', 'exportFasilitas')->name('export');
-            Route::post('import-fasilitas', 'importFasilitas')->name('import');
-            
+            Route::get('export', 'export')->name('export');
+            Route::post('import', 'import')->name('import');
         });
 
     Route::controller(StaffController::class)
@@ -96,8 +95,8 @@ Route::group(['prefix' => 'dashboard/admin', 'middleware' => ['CheckRoles']], fu
             Route::match(['get','post'],'tambah', 'tambahKamar')->name('add');
             Route::match(['get','post'],'{idKamar}/ubah', 'ubahKamar')->name('edit');
             Route::delete('{id}/hapus', 'hapusKamar')->name('delete');
-            Route::post('export-kamar', 'exportKamar')->name('export');
-            Route::post('import-kamar', 'importKamar')->name('import');
+            Route::get('export', 'export')->name('export');
+            Route::post('import', 'import')->name('import');
         });
 });
 

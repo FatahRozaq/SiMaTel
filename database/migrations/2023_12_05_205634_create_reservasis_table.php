@@ -23,7 +23,6 @@ return new class extends Migration
             $table->double('totalBiaya', 8, 2);
             $table->string('status');
             $table->string('metodePembayaran');
-            $table->unsignedBigInteger('idKamar');
             $table->timestamps();
 
             $table->foreign('idKamar')->references('idKamar')->on('KamarHotel');
