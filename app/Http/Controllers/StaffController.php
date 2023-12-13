@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Facades\DataTables;
 use App\Exports\StaffExport;
 use App\imports\StaffImport;
@@ -50,9 +51,10 @@ class StaffController extends Controller
                 $staff = Staff::query();
                 return DataTables::of($staff)->make();
             }
-
+            Log::info("Berhasil menampilkan data staff");
             return view('page.admin.staff.index');
         } catch (\Exception $e) {
+            Log::error("Terjadi kesalahan ketika ingin menampilkan data");
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
@@ -139,9 +141,10 @@ class StaffController extends Controller
             "recordsFiltered" => intval($totalFilteredRecord),
             "data"            => $data_val
             );
-
+            Log::info("Berhasil menampilkan data staff");
             echo json_encode($get_json_data);
         } catch (\Exception $e) {
+            Log::error("Terjadi kesalahan ketika ingin menampilkan data");
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
@@ -168,10 +171,12 @@ class StaffController extends Controller
                     'jabatan' => $request->jabatan,
                     'fasilitasHotel' => $request->fasilitasHotel,
                 ]);
+                Log::info("Berhasil menambahkan data staff");
                 return redirect()->route('staff.add')->with('status', 'Data telah tersimpan di database');
             }
             return view('page.admin.staff.addStaff');
         }catch (\Exception $e) {
+            Log::error("Terjadi kesalahan ketika ingin menambah data");
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
@@ -199,16 +204,20 @@ class StaffController extends Controller
                     'jabatan' => $request->jabatan,
                     'fasilitasHotel' => $request->fasilitasHotel,
                 ]);
+                Log::info("Data staff dengan ID $id berhasil diedit");
                 return redirect()->route('staff.edit',['id' => $staff->id ])->with('status', 'Data telah tersimpan di database');
             }
             return view('page.admin.akun.ubahStaff', [
                 'staff' => $staff
             ]);
         } catch (ModelNotFoundException $e) {
+            Log::warning("Terjadi kesalahan ketika mengedit data staff, karena staff dengan ID $id tidak ada");
             return response()->json(['error' => 'Data not found'], 404);
         } catch (ValidationException $e) {
+            Log::warning("Terjadi kesalahan ketika mengedit data staff, karena terdapat kesalahan ketika validasi data");
             return response()->json(['error' => $e->validator->errors()], 422);
         } catch (\Exception $e) {
+            Log::error("Terjadi kesalahan ketika ingin mengedit data, namun bukan karena staff dengan ID $id tidak ada");
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
@@ -219,12 +228,16 @@ class StaffController extends Controller
             $staff = Staff::findOrFail($id);
             
             $staff->delete($id);
+            Log::info("Data staff dengan ID $id berhasil dihapus");
             return response()->json([
                 'msg' => 'Data yang dipilih telah dihapus'
             ]);
+            
         } catch (ModelNotFoundException $e) {
+            Log::warning("Terjadi kesalahan ketika menghapus data staff, karena staff dengan ID $id tidak ada");
             return response()->json(['error' => 'Data not found'], 404);
         } catch (\Exception $e) {
+            Log::error("Terjadi kesalahan ketika ingin menghapus data, namun bukan karena staff dengan ID $id tidak ada");
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
