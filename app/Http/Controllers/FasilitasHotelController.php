@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\FasilitasHotel;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\FasilitasHotel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\FasilitasHotelExport;
+use App\Imports\FasilitasHotelImport;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
+use Session;
 
 class FasilitasHotelController extends Controller
 {
@@ -149,5 +153,27 @@ class FasilitasHotelController extends Controller
         return response()->json([
             'msg' => 'Data yang dipilih telah dihapus'
         ]);
+    }
+
+    public function exportFasilitas()
+    {
+        return Excel::download(new FasilitasHotelExport, 'fasilitas_hotel.xlsx');
+    }
+
+    public function importFasilitas(Request $request)
+    {
+		$this->validate($request, [
+			'file' => 'required|mimes:csv,xls,xlsx'
+		]);
+ 
+		$file = $request->file('file');
+ 
+		Excel::import(new FasilitasHotelImport, $file);
+ 
+		// notifikasi dengan session
+		// Session::flash('sukses','Data Siswa Berhasil Diimport!');
+ 
+		// alihkan halaman kembali
+		return redirect('page.admin.fasilitasHotel.index');
     }
 }

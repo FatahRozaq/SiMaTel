@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Pelanggan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -28,6 +29,13 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+
+    public function userHome()
+    {
+        $user = Auth::user();
+        $pelanggan = Pelanggan::where('idUser', $user->id)->first();
+        return view('page.user.home', ['pelanggan' => $pelanggan]);
     }
 
     public function profile()
@@ -70,5 +78,37 @@ class HomeController extends Controller
             ]);
             return redirect()->route('profile')->with('status', 'Perubahan telah tersimpan');
         }
+    }
+
+    public function aktivasiPelanggan(Request $request)
+    {
+        $user = Auth::user();
+        $userId = Auth::id();
+
+        if ($request->isMethod('post')) {
+
+            $this->validate($request, [
+                'alamat' => 'required|string',
+                'noTelepon' => 'required|string',
+                'noIdentifikasi' => 'required|string',
+            ]);
+            
+            Pelanggan::create([
+                'namaPelanggan' =>  $user->name,
+                'alamat' =>  $request->alamat,
+                'noTelepon' =>  $request->noTelepon,
+                'email' => $user->email,
+                'noIdentifikasi' => $request->noIdentifikasi,
+                'idUser' => 3,
+            ]);
+
+            return redirect()->route('user.home')->with('status', 'Aktivasi Pelanggan telah berhasil');
+        }
+
+        $pelanggan = Pelanggan::where('idUser', $user->id)->get();
+        return view('page.user.aktivasiPelanggan', [
+            'user' => $user,
+            'pelanggan' => $pelanggan
+        ]);
     }
 }
