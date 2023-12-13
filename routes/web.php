@@ -101,13 +101,24 @@ Route::group(['prefix' => 'dashboard/admin', 'middleware' => ['CheckRoles']], fu
         });
 });
 
-Route::get('user/home', [HomeController::class, 'userHome'])->name('user.home');
-Route::get('/userProfile', [HomeController::class, 'profile'])->name('user.profile');
-Route::post('update', [HomeController::class, 'updateprofile'])->name('profile.update');
-// Route::get('user/reservasi', [ReservasiController::class, 'index'])->name('user.reservasi');
-// Route::match(['get', 'post'], 'user/buatReservasi', 'ReservasiController@buatReservasi')->name('user.reservasi.add');
-Route::match(['get', 'post'], 'user/aktivasi', [HomeController::class, 'aktivasiPelanggan'])->name('user.aktivasi');
-Route::match(['get', 'post'], 'user/reservasi', [ReservasiController::class, 'index'])->name('user.reservasi');
-Route::match(['get', 'post'], 'user/transaksi/{idReservasi}', [ReservasiController::class, 'transaksi'])->name('user.transaksi');
-Route::get('user/dataReservasi', [ReservasiController::class, 'indexReservasi'])->name('user.indexReservasi');
-// Route::get('user/transaksi/{id}', [ReservasiController::class, 'transaksi'])->name('user.transaksi');
+Route::middleware(['auth', 'verified', 'CheckRolesUser'])->group(function () {
+    // Define your user-related routes inside this group
+    Route::prefix('user')->group(function () {
+        Route::get('home', [HomeController::class, 'userHome'])->name('user.home');
+        Route::get('profile', [HomeController::class, 'profile'])->name('user.profile');
+        Route::post('update', [HomeController::class, 'updateprofile'])->name('profile.update');
+        Route::match(['get', 'post'], 'aktivasi', [HomeController::class, 'aktivasiPelanggan'])->name('user.aktivasi');
+        Route::match(['get', 'post'], 'reservasi', [ReservasiController::class, 'index'])->name('user.reservasi');
+        Route::match(['get', 'post'], 'transaksi/{idReservasi}', [ReservasiController::class, 'transaksi'])->name('user.transaksi');
+        Route::get('dataReservasi', [ReservasiController::class, 'indexReservasi'])->name('user.indexReservasi');
+    });
+});
+
+// Route::get('user/home', [HomeController::class, 'userHome'])->name('user.home');
+// Route::get('/userProfile', [HomeController::class, 'profile'])->name('user.profile');
+// Route::post('update', [HomeController::class, 'updateprofile'])->name('profile.update');
+// Route::match(['get', 'post'], 'user/aktivasi', [HomeController::class, 'aktivasiPelanggan'])->name('user.aktivasi');
+// Route::match(['get', 'post'], 'user/reservasi', [ReservasiController::class, 'index'])->name('user.reservasi');
+// Route::match(['get', 'post'], 'user/transaksi/{idReservasi}', [ReservasiController::class, 'transaksi'])->name('user.transaksi');
+// Route::get('user/dataReservasi', [ReservasiController::class, 'indexReservasi'])->name('user.indexReservasi');
+

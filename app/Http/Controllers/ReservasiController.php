@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Pelanggan;
 use App\Models\Reservasi;
 use App\Models\Transaksi;
 use App\Models\KamarHotel;
@@ -15,6 +16,10 @@ class ReservasiController extends Controller
     public function index(Request $request)
     {
         $userId = Auth::id();
+
+        $pelanggan = Pelanggan::where('idUser', $userId)->first();
+        $idPelanggan = $pelanggan->idPelanggan;
+
         if ($request->isMethod('post')) {
 
             $idKamars = KamarHotel::find($request->idKamar);
@@ -30,7 +35,7 @@ class ReservasiController extends Controller
             
             Reservasi::create([
                 'idKamar' =>  $request->idKamar,
-                'idPelanggan' =>  1,
+                'idPelanggan' =>  $idPelanggan,
                 'tanggalCheckIn' =>  $request->tanggalCheckIn,
                 'tanggalCheckOut' => $request->tanggalCheckOut,
                 'jumlahTamu' => $request->jumlahTamu,
@@ -51,12 +56,15 @@ class ReservasiController extends Controller
 
     public function indexReservasi()
     {
-        $user = Auth::user();
+        $user = Auth::id();
 
+        $pelanggan = Pelanggan::where('idUser', $user)->first();
+        $idPelanggan = $pelanggan->idPelanggan;
+
+        
         if (request()->ajax()) {
-            // $reservasi = Reservasi::query()
-            //     ->where('idPelanggan', $user->id);
-            $reservasi = Reservasi::query();
+            $reservasi = Reservasi::query()
+                ->where('idPelanggan', $idPelanggan);
             return DataTables::of($reservasi)
                 ->make();
         }

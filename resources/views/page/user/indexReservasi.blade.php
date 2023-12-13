@@ -99,10 +99,14 @@
                         data: 'idReservasi',
                         name: 'idReservasi',
                         render: function (data, type, full, meta) {
-                            var routeUrl = '{{ route("user.transaksi", ":idReservasi") }}';
-                            routeUrl = routeUrl.replace(':idReservasi', data);
-
-                            return '<a href="' + routeUrl + '" class="bayar" data-id="' + data + '"><i class="fas fa-edit fa-lg"></i></a>';
+                            if(full.status != 'FP'){
+                                var routeUrl = '{{ route("user.transaksi", ":idReservasi") }}';
+                                routeUrl = routeUrl.replace(':idReservasi', data);
+                                return '<a href="' + routeUrl + '" class="bayar" data-id="' + data + '"><i class="fas fa-shopping-cart fa-lg"></i></a>';
+                            } else {
+                                return 'Sudah Lunas'
+                            }
+                            
                         }
                     },
                     {
